@@ -1,6 +1,6 @@
-import './constants.js';
 import { words } from './dictionary.js';
-import { KEYBOARD_CONFIG, NUMLETTERS, ROUNDS } from './constants.js';
+import { Keyboard } from './keyboard.js'
+import { NUMLETTERS, ROUNDS } from './constants.js';
 
 export class Game {
     constructor() {
@@ -14,10 +14,10 @@ export class Game {
 
     setElements() {
         this.boardEl = document.querySelector('.board');
-        this.keyBoardEl = document.querySelector('.keyboard');
         this.buildGrid(ROUNDS);
-        this.buildKeyboard();
-        this.addListeners();
+
+        this.keyBoardEl = document.querySelector('.keyboard');
+        this.keyboard = new Keyboard(this.keyBoardEl);
     }
 
     buildGrid(numRows) {
@@ -35,26 +35,6 @@ export class Game {
         }).join('');
 
         this.boardEl.innerHTML = gridHTML;
-    }
-
-    buildKeyboard() {
-        const keyboardHTML = KEYBOARD_CONFIG.map(row => {
-            const buildKeyboardRow = (row) => {
-                return row.map(letter => {
-                    return `<button class="keyboard__key" data-key="${letter}">${letter}</button>`
-                }).join('');;
-            }
-            return `<div class="keyboard__row">${buildKeyboardRow(row)}</div>`;
-        }).join('');
-
-        this.keyBoardEl.innerHTML = keyboardHTML;
-    }
-
-    addListeners() {
-        this.keyBoardEl.addEventListener('click', (e) => {
-            const key = e.target.dataset.key;
-            console.log(key);
-        });
     }
 
     fetchWords(numLetters) {
