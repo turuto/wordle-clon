@@ -17,14 +17,44 @@ export class Game {
         this.keyBoardEl = document.querySelector('.keyboard');
         this.buildGrid(ROUNDS);
         this.buildKeyboard();
+        this.addListeners();
     }
 
     buildGrid(numRows) {
-        console.log('BUILDING  A GRID OF', numRows);
+        const gridHTML = Array(numRows).fill(null).map(() => {
+            const buildRow = (lettersTotal) => {
+                let rowHTML = '';
+                for (let i = 0; i < lettersTotal; i++) {
+                    rowHTML += '<div class="board__letter"></div>'
+                }
+
+                return rowHTML;
+            };
+
+            return `<div class="board__row">${buildRow(NUMLETTERS)}</div>`;
+        }).join('');
+
+        this.boardEl.innerHTML = gridHTML;
     }
 
     buildKeyboard() {
-        console.log('BUILDING  A keyBoard', KEYBOARD_CONFIG);
+        const keyboardHTML = KEYBOARD_CONFIG.map(row => {
+            const buildKeyboardRow = (row) => {
+                return row.map(letter => {
+                    return `<button class="keyboard__key" data-key="${letter}">${letter}</button>`
+                }).join('');;
+            }
+            return `<div class="keyboard__row">${buildKeyboardRow(row)}</div>`;
+        }).join('');
+
+        this.keyBoardEl.innerHTML = keyboardHTML;
+    }
+
+    addListeners() {
+        this.keyBoardEl.addEventListener('click', (e) => {
+            const key = e.target.dataset.key;
+            console.log(key);
+        });
     }
 
     fetchWords(numLetters) {

@@ -12,3 +12,17 @@ body {
 
 	background: palegreen;
 }
+
+.board__row {
+	display: flex;
+	flex-direction: row;
+
+	gap: 5px;
+}
+
+.board__letter {
+	width: 50px;
+	height: 70px;
+
+	border: 1px solid red;
+}
