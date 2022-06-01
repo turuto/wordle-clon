@@ -1,124 +1,72 @@
-var del = require('del');
-var gulp = require('gulp');
-var runSequence = require('run-sequence');
-var postcss = require('gulp-postcss');
-var autoprefixer = require('autoprefixer');
-var cssimport = require('postcss-import');
-var calc = require("postcss-calc")
-var colorFunction = require("postcss-color-function")
-var customproperties = require('postcss-custom-properties');
-var apply = require('postcss-apply');
-var mixins = require('postcss-mixins');
-var nested = require('postcss-nested');
-var customMedia = require("postcss-custom-media");
-var utilities = require('postcss-utilities');
-var nano = require('gulp-cssnano');
-var plumber = require('gulp-plumber');
-var notify = require('gulp-notify');
-var rename = require('gulp-rename');
-var validateCss = require('csstree-validator').validateFile;
-var reporter = require('csstree-validator').reporters.json;
-var config = require('./projectConfig.json').config;
+var gulp = require('gulp'),
+    gulpif = require('gulp-if'),
+    sass = require('gulp-sass'),
+    autoprefixer = require('gulp-autoprefixer'),
+    minifyCss = require('gulp-minify-css'),
+    notify = require('gulp-notify'),
+    plumber = require('gulp-plumber'),
+    wait = require('gulp-wait'),
+    rename = require("gulp-rename");
 
-var fs = require("fs");
-
+/*CONFIG*/
+var config = {};
+// config.activeTheme = 'css';
+config.develop = false;
+config.srcSCSSFolder = `../scss`;
+config.mainSCSSFile = `${config.srcSCSSFolder}/main.scss`;
+// config.mainSCSSFile_dev = `${config.srcSCSSFolder}/main_dev.scss`;
+config.distCSSFolder = `../css`;
 
 var onError = function (err) {
     notify.onError({
-        title: "Gulp",
-        subtitle: "Failure!",
-        message: "Error: <%= error.message %>",
-        sound: "Beep"
+        title: 'Gulp',
+        subtitle: 'Failure!',
+        message: 'Error: <%= error.message %>',
+        sound: 'Beep'
     })(err);
 
     this.emit('end');
 };
 
-gulp.task('css', function (callback) {
+/*SUBTASK*/
+gulp.task('css', () => {
+    console.log(`Executing CSS task on '${config.distCSSFolder}' - isDevelop: ${config.develop}`);
+    let entryFile = config.develop ? config.mainSCSSFile_dev : config.mainSCSSFile;
 
-    if (!callback) callback = function () { };
-    //TODO: eliminar  runSequence cuando se instale gulp v4
-    runSequence('_css', '_validateCss', '_cleanTmpFile', callback);
+    console.log(entryFile);
+    return new Promise((resolve, reject) => {
+        return gulp.src(entryFile)
+            .pipe(plumber({
+                errorHandler: onError
+            }))
+            .pipe(wait(200))
+            .pipe(sass())
+            .pipe(autoprefixer())
+            .pipe(gulpif((config.develop === false), minifyCss()))
+            .pipe(rename('style.css'))
+            .pipe(gulp.dest(config.distCSSFolder))
+            .on('error', reject)
+            .on('end', resolve);
+    });
 });
 
-gulp.task('_css', function () {
-    var processors = [
-        cssimport,
-        autoprefixer({ browsers: 'last 2 versions' }),
-        customproperties,
-        calc,
-        colorFunction,
-        apply,
-        utilities,
-        mixins,
-        nested,
-        customMedia
-    ];
-    var configNano = config.nano;
+setDevelop = async () => {
+    config.develop = true;
+};
 
-    var fileContent = fs.readFileSync(config.css.mainCSSFile, "utf8");
-    var optionalFileContent = '';
+setProd = async () => {
+    config.develop = false;
+};
 
-    if (config.enableDebug === true) {
-        console.log('Generamos el fichero CSS con info de debug');
-        optionalFileContent = fs.readFileSync(config.css.debugCSSFile, "utf8");
-    }
+gulp.task('dev', gulp.series(setDevelop, 'css'));
 
-    fs.writeFileSync(config.css.srcCSSFolder + 'tmp.pcss', fileContent + ' ' + optionalFileContent);
+gulp.task('prod', gulp.series(setProd, 'css'));
 
-    return gulp.src(config.css.srcCSSFolder + 'tmp.pcss')
-        .pipe(plumber({ errorHandler: onError }))
-        .pipe(postcss(processors))
-        .pipe(rename(config.css.distCSSFolder + "/style.css"))
-        .pipe(gulp.dest(config.css.distCSSFolder))
-        .pipe(nano(configNano))
-        .pipe(rename(config.css.distCSSFolder + "/style.min.css"))
-        .pipe(gulp.dest(config.css.distCSSFolder));
-});
+function watch() {
+    const folder = `${config.srcSCSSFolder}/**/*.scss`;
+    gulp.watch(folder, gulp.parallel('css'));
+}
 
-// la task css hace un archivo tmp.pcss que lleva (o no) estilos de debug. Al acabar el proceso hay que eliminarlo
-gulp.task('_cleanTmpFile', function () {
-    return del([config.css.srcCSSFolder + 'tmp.pcss'], { force: true });
-});
+gulp.task('watch', gulp.series('css', watch));
 
-gulp.task('_validateCss', function () {
-
-    var error = JSON.parse(reporter(validateCss(config.css.distCSSFolder + "/style.css")));
-    var errStr = '';
-    var filename = '';
-
-    if (!!error && error.length === 0) {
-        console.log('Notificamos que somos unos cracks :D');
-    } else {
-
-        for (var i = 0; i < error.length; i++) {
-            //ponemos solo el nombre del archivo en lugar de la ruta completa
-            filename = error[i].name.replace(/^.*[\\\/]/, '');
-            errStr += '(' + (i + 1) + ' de ' + error.length + ') ' + filename + ':' + error[i].line + ' - ' + error[i].property + ' - ' + error[i].message + '\n\n';
-        }
-        console.log(errStr);
-
-        notify.onError({
-            title: "Gulp",
-            subtitle: "Failure!",
-            message: errStr,
-            sound: "Beep"
-        })(errStr);
-    }
-
-});
-
-// gulp.task('cssComb', function() {
-// return gulp.src(config.css.srcCSSFolder+"**/*.pcss")
-// .pipe(csscomb())
-// .pipe(gulp.dest(config.css.srcCSSFolder));
-// })
-
-// Watch
-gulp.task('watch', function () {
-    // Watch .css files
-    gulp.watch(config.css.srcCSSFolder + '**/*.pcss', ['css']);
-});
-
-// Default
-gulp.task('default', ['css', 'watch']);
+gulp.task('default', gulp.series('watch'));

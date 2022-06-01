@@ -1,0 +1,30 @@
+.board {
+	display: flex;
+	flex: 1;
+	flex-flow: column nowrap;
+	justify-content: center;
+
+	&__row {
+		display: flex;
+		flex-flow: row nowrap;
+		justify-content: center;
+
+		margin-top: .5em;
+
+		gap: .5em;
+	}
+
+	&__letter {
+		width: var(--letter-size);
+		height: var(--letter-size);
+
+		text-align: center;
+
+		outline: 1px solid $gray-darker;
+
+		font-size: var(--letter-size);
+		line-height: var(--letter-size);
+
+		--letter-size: 4rem;
+	}
+}

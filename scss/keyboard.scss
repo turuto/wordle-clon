@@ -1,0 +1,14 @@
+.keyboard {
+	background: yellow;
+
+	&__row {
+		text-align: center;
+	}
+
+	&__key {
+		min-height: 2em;
+
+		text-align: center;
+		text-transform: uppercase;
+	}
+}
