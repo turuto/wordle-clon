@@ -21,8 +21,6 @@ export class Game {
         this.keyboard = new Keyboard(this.keyBoardEl);
     }
 
-
-
     fetchWords(numLetters) {
         const filteredWords = words[`${numLetters}`];
         console.log(filteredWords);
