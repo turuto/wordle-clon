@@ -27,7 +27,17 @@ export class Keyboard {
     addListeners() {
         this.el.addEventListener('click', (e) => {
             const key = e.target.dataset.key;
-            console.log(key);
+            this.handleKey(key);
         });
+
+        document.addEventListener('keydown', e => {
+            e.preventDefault();
+            const key = e.key;
+            this.handleKey(key);
+        });
+    }
+
+    handleKey(key) {
+        console.log(key)
     }
 }
