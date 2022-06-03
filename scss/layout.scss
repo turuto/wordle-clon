@@ -7,13 +7,16 @@ body {
 	margin: 0;
 	padding: 0;
 
-	background-color: #FAFAFA;
+	color: var(--main-text-color);
+	background-color: var(--main-bg-color);
 }
 
 .main {
 	display: flex;
+	align-items: center;
 	flex: 1;
 	flex-flow: column nowrap;
 
-	background: palegreen;
+	border-top: 1px solid $white;
+	border-bottom: 1px solid $white;
 }
