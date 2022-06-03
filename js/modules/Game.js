@@ -5,8 +5,8 @@ import { NUMLETTERS, ROUNDS } from './constants.js';
 
 export class Game {
     constructor() {
-        this.init()
         this.setElements();
+        this.init()
     }
 
     init() {
@@ -14,15 +14,16 @@ export class Game {
     }
 
     setElements() {
-        this.boardEl = document.querySelector('.board');
-        this.board = new Board(this.boardEl, NUMLETTERS, ROUNDS);
+        const boardEl = document.querySelector('.board');
+        this.board = new Board(boardEl, NUMLETTERS, ROUNDS);
 
-        this.keyBoardEl = document.querySelector('.keyboard');
-        this.keyboard = new Keyboard(this.keyBoardEl);
+        const keyBoardEl = document.querySelector('.keyboard');
+        this.keyboard = new Keyboard(keyBoardEl, false);
     }
 
     fetchWords(numLetters) {
         const filteredWords = words[`${numLetters}`];
         console.log(filteredWords);
     }
+
 };

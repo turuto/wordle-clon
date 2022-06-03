@@ -1,8 +1,9 @@
 import { KEYBOARD_CONFIG } from './constants.js';
 
 export class Keyboard {
-    constructor(el) {
+    constructor(el, enabled) {
         this.el = el;
+        this.enabled = enabled;
         this.init();
     }
 
@@ -39,5 +40,14 @@ export class Keyboard {
 
     handleKey(key) {
         console.log(key)
+    }
+
+    toggleKeyboard(state) {
+        this.enabled = state;
+        if (state) {
+            this.el.classList.remove('disabled');
+        } else {
+            this.el.classList.add('disabled');
+        }
     }
 }
