@@ -1,6 +1,7 @@
 export class GameManager {
-    constructor() {
-
+    constructor(board, keyboard) {
+        this.board = board;
+        this.keyboard = keyboard;
     }
 
     startGame(chosenWord) {

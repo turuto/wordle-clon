@@ -2,6 +2,7 @@ import { words } from './dictionary.js';
 import { Keyboard } from './Keyboard.js'
 import { Board } from './Board.js'
 import { NUMLETTERS, ROUNDS } from './constants.js';
+import { GameManager } from './GameManager.js';
 
 export class Game {
     constructor() {
@@ -19,6 +20,8 @@ export class Game {
 
         const keyBoardEl = document.querySelector('.keyboard');
         this.keyboard = new Keyboard(keyBoardEl, false);
+
+        this.manager = new GameManager(this.board, this.keyboard);
     }
 
     fetchWords(numLetters) {
