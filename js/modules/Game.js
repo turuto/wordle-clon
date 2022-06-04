@@ -3,6 +3,7 @@ import { Keyboard } from './Keyboard.js'
 import { Board } from './Board.js'
 import { NUMLETTERS, ROUNDS } from './constants.js';
 import { GameManager } from './GameManager.js';
+// import PubSub from '../lib/pubsub';
 
 export class Game {
     constructor() {
@@ -26,7 +27,9 @@ export class Game {
 
     fetchWords(numLetters) {
         const filteredWords = words[`${numLetters}`];
+        const chosenWord = filteredWords[Math.floor(Math.random() * filteredWords.length)];
         console.log(filteredWords);
+        this.manager.startGame(chosenWord);
     }
 
 };
