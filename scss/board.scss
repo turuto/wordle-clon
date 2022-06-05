@@ -12,6 +12,10 @@
 		margin-top: .5em;
 
 		gap: .5em;
+
+		&--active {
+			background-color: pink;
+		}
 	}
 
 	&__letter {
@@ -20,11 +24,26 @@
 
 		text-align: center;
 
+		color: var(--main-text-color);
 		outline: 1px solid $gray-darker;
 
 		font-size: var(--letter-size);
 		line-height: var(--letter-size);
 
 		--letter-size: 4rem;
+
+		&--success {
+			color: $white;
+			background-color: $succes-color;
+		}
+
+		&--warning {
+			color: $white;
+			background-color: $warning-color;
+		}
+
+		&--active {
+			outline: 1px solid red;
+		}
 	}
 }

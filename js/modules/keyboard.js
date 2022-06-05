@@ -10,13 +10,20 @@ export class Keyboard {
     init() {
         this.buildKeyboard();
         this.addListeners();
+        //console.log(this);
     }
 
     buildKeyboard() {
         const keyboardHTML = KEYBOARD_CONFIG.map(row => {
             const buildKeyboardRow = (row) => {
                 return row.map(letter => {
-                    return `<button class="keyboard__key" data-key="${letter}">${letter}</button>`
+                    let label = letter;
+                    if (label.toUpperCase() === 'BACKSPACE') {
+                        label = 'DELETE';
+                    } else if (label.toUpperCase() === 'ENTER') {
+                        label = 'SEND';
+                    }
+                    return `<button class="keyboard__key" data-key="${letter}">${label}</button>`
                 }).join('');;
             }
             return `<div class="keyboard__row">${buildKeyboardRow(row)}</div>`;
@@ -27,8 +34,10 @@ export class Keyboard {
 
     addListeners() {
         this.el.addEventListener('click', (e) => {
-            const key = e.target.dataset.key;
-            this.handleKey(key);
+            let key = e.target.dataset.key;
+            if (key) {
+                this.handleKey(key);
+            }
         });
 
         document.addEventListener('keydown', e => {
@@ -36,13 +45,29 @@ export class Keyboard {
             const key = e.key;
             this.handleKey(key);
         });
+
     }
 
     handleKey(key) {
-        console.log(key)
+        if (this.enabled) {
+            if (key.toUpperCase() === 'ENTER') {
+                console.log('ENTER PRESSED')
+                const sendAttemptEvent = new CustomEvent('attemptFinished');
+                this.el.dispatchEvent(sendAttemptEvent);
+            } else if (key.toUpperCase() === 'BACKSPACE') {
+                console.log('BACKSPACE PRESSED')
+                const deleteEvent = new CustomEvent('deleteLetter');
+                this.el.dispatchEvent(deleteEvent);
+            } else {
+                console.log('normal ', key)
+                const addLetterEvent = new CustomEvent('addLetter', { detail: key });
+                this.el.dispatchEvent(addLetterEvent);
+            }
+        }
     }
 
     toggleKeyboard(state) {
+        console.log('keyboard status', state);
         this.enabled = state;
         if (state) {
             this.el.classList.remove('disabled');

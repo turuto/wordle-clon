@@ -7,11 +7,12 @@ import { GameManager } from './GameManager.js';
 
 export class Game {
     constructor() {
-        this.setElements();
         this.init()
     }
 
     init() {
+        this.setElements();
+        this.keyboard.toggleKeyboard(false);
         this.fetchWords(NUMLETTERS);
     }
 
@@ -28,7 +29,7 @@ export class Game {
     fetchWords(numLetters) {
         const filteredWords = words[`${numLetters}`];
         const chosenWord = filteredWords[Math.floor(Math.random() * filteredWords.length)];
-        console.log(filteredWords);
+        //console.log(filteredWords);
         this.manager.startGame(chosenWord);
     }
 

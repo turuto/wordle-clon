@@ -3,6 +3,9 @@ export class Board {
         this.el = el;
         this.numLetters = numLetters;
         this.numRounds = numRounds;
+        this.rows = undefined;
+        this.activeRow = undefined;
+        this.currentLetters = null;
         this.init();
     }
 
@@ -16,6 +19,7 @@ export class Board {
         }).join('');
 
         this.el.innerHTML = gridHTML;
+        this.rows = this.el.querySelectorAll('.board__row');
     }
 
     buildRow() {
@@ -23,7 +27,27 @@ export class Board {
         for (let i = 0; i < this.numLetters; i++) {
             rowHTML += '<div class="board__letter"></div>'
         }
-
         return rowHTML;
+    }
+
+    clearActiveRow() {
+        const activeRow = this.el.querySelector('.board__row--active');
+
+        if (activeRow) {
+            activeRow.classList.remove('board__row--active');
+            this.currentLetters = null;
+        }
+    }
+
+    setActiveRow(index) {
+        this.activeRow = this.rows[index]
+        this.currentLetters = this.activeRow.querySelectorAll('.board__letter');
+        this.activeRow.classList.add('board__row--active');
+    }
+
+    paintLetter(index, value, state) {
+        const cell = this.currentLetters[index];
+        cell.innerHTML = value.toUpperCase();
+        cell.classList.add(`board__letter--${state}`);
     }
 }
