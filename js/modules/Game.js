@@ -28,20 +28,25 @@ export class Game {
     }
 
     fetchWords(numLetters) {
-        const endpoint = './js/data/words.txt';
+        let searchedLength = numLetters;
+
+        if (numLetters < 10) {
+            searchedLength = '0' + numLetters;
+        }
+
+        const endpoint = `./js/data/${searchedLength}.txt`;
         fetch(endpoint)
             .then(response => response.text())
             .then(data => {
                 this.words = [...data.split(/\r?\n/)];
-                const chosenWord = this.words[Math.floor(Math.random() * this.words.length)];
-                console.log(chosenWord);
+                const chosenWord = this.chooseWord();
+                console.log('escogida', chosenWord);
                 this.manager.startGame(chosenWord);
             });
+    }
 
-        // const filteredWords = words[`${numLetters}`];
-        // const chosenWord = filteredWords[Math.floor(Math.random() * filteredWords.length)];
-        // //console.log(filteredWords);
-        // this.manager.startGame(chosenWord);
+    chooseWord() {
+        return this.words[Math.floor(Math.random() * this.words.length)];
     }
 
 };
