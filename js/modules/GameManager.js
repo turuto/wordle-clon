@@ -35,12 +35,20 @@ export class GameManager {
     }
 
     addLetter(letter) {
-        console.log('adding ', letter);
-        this.currentAttempt.push(letter);
-        this.board.paintLetter(this.cursor, letter, 'success');
-        this.cursor++
+        if (this.cursor < this.hiddenWord.length) {
+            this.currentAttempt.push(letter);
+            const letterStatus = this.checkLetter(letter, this.hiddenWord);
+            this.board.paintLetter(this.cursor, letter, letterStatus);
+            this.cursor++
+        }
     }
 
+    checkLetter(letter, word) {
+        const wordLetters = word.split('');
+        console.log(`checking ${letter} in ${wordLetters}`);
+
+        return 'success';
+    }
 
     checkWord() {
         console.log('CHECKING WORD');

@@ -38,11 +38,21 @@ export class Game {
         fetch(endpoint)
             .then(response => response.text())
             .then(data => {
-                this.words = [...data.split(/\r?\n/)];
+                this.filterList(data);
                 const chosenWord = this.chooseWord();
                 console.log('escogida', chosenWord);
                 this.manager.startGame(chosenWord);
             });
+    }
+    filterList(rawList) {
+        const tempWords = [...rawList.split(/\r?\n/)]; // array from line breaks
+        // remove Diacritics
+        const normalizedWords = tempWords.map(word =>
+            word.normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, "")
+        );
+        this.words = [... new Set(normalizedWords)]; // get unique values
+        console.log('COMPARANDO LONGITUD ', tempWords.length, this.words.length);
     }
 
     chooseWord() {
