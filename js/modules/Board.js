@@ -48,6 +48,8 @@ export class Board {
     paintLetter(index, value, state) {
         const cell = this.currentLetters[index];
         cell.innerHTML = value.toUpperCase();
-        cell.classList.add(`board__letter--${state}`);
+        if (state) {
+            cell.classList.add(`board__letter--${state}`);
+        }
     }
 }

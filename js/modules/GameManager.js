@@ -37,8 +37,8 @@ export class GameManager {
     addLetter(letter) {
         if (this.cursor < this.hiddenWord.length) {
             this.currentAttempt.push(letter);
-            const letterStatus = this.checkLetter(letter, this.hiddenWord);
-            this.board.paintLetter(this.cursor, letter, letterStatus);
+
+            this.board.paintLetter(this.cursor, letter);
             this.cursor++
         }
     }
@@ -52,6 +52,8 @@ export class GameManager {
 
     checkWord() {
         console.log('CHECKING WORD');
+        // TODO: iterar por el intento  y checkear las letras
+        // const letterStatus = this.checkLetter(letter, this.hiddenWord);
         this.gotoNextRound();
     }
 
