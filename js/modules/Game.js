@@ -3,7 +3,6 @@ import { Keyboard } from './Keyboard.js'
 import { Board } from './Board.js'
 import { NUMLETTERS, ROUNDS } from './constants.js';
 import { GameManager } from './GameManager.js';
-// import PubSub from '../lib/pubsub';
 
 export class Game {
     constructor() {
@@ -40,23 +39,21 @@ export class Game {
             .then(data => {
                 this.filterList(data);
                 const chosenWord = this.chooseWord();
-                console.log('escogida', chosenWord);
                 this.manager.startGame(chosenWord);
             });
     }
+
     filterList(rawList) {
         const tempWords = [...rawList.split(/\r?\n/)]; // array from line breaks
         // remove Diacritics
         const normalizedWords = tempWords.map(word =>
-            word.normalize('NFD')
-                .replace(/[\u0300-\u036f]/g, "")
+            word.normalize('NFD').replace(/[\u0300-\u036f]/g, "")
         );
+
         this.words = [... new Set(normalizedWords)]; // get unique values
-        console.log('COMPARANDO LONGITUD ', tempWords.length, this.words.length);
     }
 
     chooseWord() {
         return this.words[Math.floor(Math.random() * this.words.length)];
     }
-
 };
