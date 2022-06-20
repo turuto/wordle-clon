@@ -18,7 +18,7 @@
 		}
 	}
 
-	&__letter {
+	&__cell {
 		width: var(--letter-size);
 		height: var(--letter-size);
 
@@ -43,7 +43,7 @@
 		}
 
 		&--active {
-			outline: 1px solid red;
+			outline: 2px solid black;
 		}
 	}
 }

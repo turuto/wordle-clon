@@ -31,7 +31,7 @@ export class GameManager {
         this.cursor = 0;
         this.board.clearActiveRow();
         this.board.setActiveRow(this.currentRound);
-        this.board.setActiveLetter(this.cursor);
+        this.board.setActiveCell(this.cursor);
     }
 
     addLetter(letter) {
@@ -39,7 +39,9 @@ export class GameManager {
             this.currentAttempt.push(letter);
             this.board.paintLetter(this.cursor, letter, 'active');
             this.cursor++
-            this.board.setActiveLetter(this.cursor);
+            if (this.cursor < this.hiddenWord.length) {
+                this.board.setActiveCell(this.cursor);
+            }
         }
     }
 
