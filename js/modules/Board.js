@@ -45,6 +45,15 @@ export class Board {
         this.activeRow.classList.add('board__row--active');
     }
 
+    setActiveLetter(index) {
+        const activeLetter = this.el.querySelector('.board__letter--active');
+        debugger;
+        if (activeLetter) {
+            activeLetter.classList.remove('board__letter--active');
+        }
+        this.currentLetters[index].classList.add('board__letter--active');
+    }
+
     paintLetter(index, value, state) {
         const cell = this.currentLetters[index];
         cell.innerHTML = value.toUpperCase();

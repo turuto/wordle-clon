@@ -28,18 +28,18 @@ export class GameManager {
 
     startRound() {
         console.log(`Starting Round ${this.currentRound} out of ${this.totalRounds}`);
+        this.cursor = 0;
         this.board.clearActiveRow();
         this.board.setActiveRow(this.currentRound);
-        this.cursor = 0;
-
+        this.board.setActiveLetter(this.cursor);
     }
 
     addLetter(letter) {
         if (this.cursor < this.hiddenWord.length) {
             this.currentAttempt.push(letter);
-
-            this.board.paintLetter(this.cursor, letter);
+            this.board.paintLetter(this.cursor, letter, 'active');
             this.cursor++
+            this.board.setActiveLetter(this.cursor);
         }
     }
 
