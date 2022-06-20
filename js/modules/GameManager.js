@@ -20,6 +20,7 @@ export class GameManager {
         this.currentRound = 0;
         this.totalRounds = this.board.numRounds - 1;
         this.keyboard.el.addEventListener('attemptFinished', this.checkWord.bind(this));
+        this.keyboard.el.addEventListener('deleteLetter', this.deleteLetter.bind(this));
         this.keyboard.el.addEventListener('addLetter', e => {
             this.addLetter(e.detail)
         });
@@ -42,6 +43,15 @@ export class GameManager {
             if (this.cursor < this.hiddenWord.length) {
                 this.board.setActiveCell(this.cursor);
             }
+        }
+    }
+
+    deleteLetter() {
+        this.currentAttempt.pop();
+        this.cursor--
+        this.board.paintLetter(this.cursor, '');
+        if (this.cursor >= 0) {
+            this.board.setActiveCell(this.cursor);
         }
     }
 
