@@ -47,11 +47,13 @@ export class GameManager {
     }
 
     deleteLetter() {
-        this.currentAttempt.pop();
-        this.cursor--
-        this.board.paintLetter(this.cursor, '');
-        if (this.cursor >= 0) {
-            this.board.setActiveCell(this.cursor);
+        if (this.currentAttempt.length > 0) {
+            this.currentAttempt.pop();
+            this.cursor--
+            this.board.paintLetter(this.cursor, '');
+            if (this.cursor >= 0) {
+                this.board.setActiveCell(this.cursor);
+            }
         }
     }
 
