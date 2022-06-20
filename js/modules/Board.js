@@ -45,13 +45,16 @@ export class Board {
         this.activeRow.classList.add('board__row--active');
     }
 
-    setActiveCell(index) {
+    clearActiveCell() {
         const activeLetter = this.el.querySelector('.board__cell--active');
+
         if (activeLetter) {
             activeLetter.classList.remove('board__cell--active');
         }
-        console.log('activating cell', index);
-        debugger;
+    }
+
+    setActiveCell(index) {
+        this.clearActiveCell();
         this.currentCells[index].classList.add('board__cell--active');
     }
 
