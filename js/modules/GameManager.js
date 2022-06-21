@@ -19,7 +19,7 @@ export class GameManager {
         this.hiddenWord = word;
         this.currentRound = 0;
         this.totalRounds = this.board.numRounds - 1;
-        this.keyboard.el.addEventListener('attemptFinished', this.checkWord.bind(this));
+        this.keyboard.el.addEventListener('attemptFinished', this.submitRound.bind(this));
         this.keyboard.el.addEventListener('deleteLetter', this.deleteLetter.bind(this));
         this.keyboard.el.addEventListener('addLetter', e => {
             this.addLetter(e.detail)
@@ -29,6 +29,7 @@ export class GameManager {
 
     startRound() {
         console.log(`Starting Round ${this.currentRound} out of ${this.totalRounds}`);
+        this.currentAttempt = [];
         this.cursor = 0;
         this.board.clearActiveRow();
         this.board.setActiveRow(this.currentRound);
@@ -38,7 +39,7 @@ export class GameManager {
     addLetter(letter) {
         if (this.cursor < this.hiddenWord.length) {
             this.currentAttempt.push(letter);
-            this.board.paintLetter(this.cursor, letter, 'active');
+            this.board.writeLetter(this.cursor, letter, 'active');
             this.cursor++
             if (this.cursor < this.hiddenWord.length) {
                 this.board.setActiveCell(this.cursor);
@@ -57,6 +58,30 @@ export class GameManager {
         }
     }
 
+    checkWord() {
+        // TODO CHECK FIRST IF WORD EXISTS
+        const hiddenArr = this.hiddenWord.split('');
+        // 1st round: get the ones in the right place
+        let letterStatus = this.currentAttempt.map((letter, index) => {
+            // this gives us the ones in the right spot
+            return this.hiddenWord.charAt(index) === letter ? 'success' : undefined;
+        });
+
+        const remainingToGuess = hiddenArr.filter((letter, index) => !letterStatus[index]);
+
+        letterStatus.forEach((item, index) => {
+            if (typeof item === 'undefined') {
+                const searchedLetter = this.currentAttempt[index];
+                if (remainingToGuess.includes(searchedLetter)) {
+                    letterStatus[index] = 'notInPlace';
+                } else {
+                    letterStatus[index] = 'wrong';
+                }
+            }
+            this.board.colorLetter(index, letterStatus[index]);
+        })
+    }
+
     checkLetter(letter, word) {
         const wordLetters = word.split('');
         console.log(`checking ${letter} in ${wordLetters}`);
@@ -64,11 +89,12 @@ export class GameManager {
         return 'success';
     }
 
-    checkWord() {
-        console.log('CHECKING WORD');
-        // TODO: iterar por el intento  y checkear las letras
-        // const letterStatus = this.checkLetter(letter, this.hiddenWord);
-        this.gotoNextRound();
+    submitRound() {
+        // only check when in the last letter
+        if (this.cursor === this.hiddenWord.length) {
+            this.checkWord();
+            this.gotoNextRound();
+        }
     }
 
     gotoNextRound() {
