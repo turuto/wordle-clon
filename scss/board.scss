@@ -14,7 +14,7 @@
 		gap: .5em;
 
 		&--active {
-			background-color: pink;
+			background-color: lightcyan;
 		}
 	}
 
@@ -37,7 +37,7 @@
 			background-color: $succes-color;
 		}
 
-		&--warning {
+		&--notInPlace {
 			color: $white;
 			background-color: $warning-color;
 		}

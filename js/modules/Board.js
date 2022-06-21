@@ -58,11 +58,16 @@ export class Board {
         this.currentCells[index].classList.add('board__cell--active');
     }
 
-    paintLetter(index, value, state) {
+    writeLetter(index, value, state) {
         const cell = this.currentCells[index];
         cell.innerHTML = value.toUpperCase();
         if (state) {
-            cell.classList.add(`board__cell--${state}`);
+            this.colorLetter(index, state);
         }
+    }
+
+    colorLetter(index, state) {
+        const cell = this.currentCells[index];
+        cell.classList.add(`board__cell--${state}`);
     }
 }
