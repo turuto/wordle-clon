@@ -2,6 +2,7 @@ export class GameManager {
     constructor(board, keyboard) {
         this.board = board;
         this.keyboard = keyboard;
+        this.dictionary = undefined;
         this.hiddenWord = undefined;
         this.currentRound = undefined;
         this.totalRounds = undefined;
@@ -19,6 +20,7 @@ export class GameManager {
         this.hiddenWord = word;
         this.currentRound = 0;
         this.totalRounds = this.board.numRounds - 1;
+
         this.keyboard.el.addEventListener('attemptFinished', this.submitRound.bind(this));
         this.keyboard.el.addEventListener('deleteLetter', this.deleteLetter.bind(this));
         this.keyboard.el.addEventListener('addLetter', e => {
@@ -50,8 +52,8 @@ export class GameManager {
     deleteLetter() {
         if (this.currentAttempt.length > 0) {
             this.currentAttempt.pop();
-            this.cursor--
-            this.board.paintLetter(this.cursor, '');
+            this.cursor--;
+            this.board.writeLetter(this.cursor, '');
             if (this.cursor >= 0) {
                 this.board.setActiveCell(this.cursor);
             }
@@ -59,7 +61,6 @@ export class GameManager {
     }
 
     checkWord() {
-        // TODO CHECK FIRST IF WORD EXISTS
         const hiddenArr = this.hiddenWord.split('');
         // 1st round: get the ones in the right place
         let letterStatus = this.currentAttempt.map((letter, index) => {
@@ -90,10 +91,20 @@ export class GameManager {
     }
 
     submitRound() {
-        // only check when in the last letter
-        if (this.cursor === this.hiddenWord.length) {
-            this.checkWord();
-            this.gotoNextRound();
+        const currentAttemptStr = this.currentAttempt.join('');
+        const areAllLettersFilled = this.cursor === this.hiddenWord.length;
+        const isValidWord = this.dictionary.includes(currentAttemptStr);
+
+        if (areAllLettersFilled) {
+            if (!isValidWord) {
+                console.log('WORD NOT VALID');
+            } else if (currentAttemptStr.toUpperCase() === this.hiddenWord.toUpperCase()) {
+                // TODO: PAINT LETTERS WITH SUCCESS
+                this.gameOver();
+            } else {
+                this.checkWord();
+                this.gotoNextRound();
+            }
         }
     }
 
@@ -107,6 +118,10 @@ export class GameManager {
     }
 
     gameOver() {
-        console.log('gameOver');
+        if (this.currentRound <= this.totalRounds) {
+            console.log('CONGRATS!!!!');
+        } else {
+            console.log('GAME OVER');
+        }
     }
 }

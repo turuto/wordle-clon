@@ -39,7 +39,9 @@ export class Game {
             .then(data => {
                 this.filterList(data);
                 const chosenWord = this.chooseWord();
+                this.manager.dictionary = this.words;
                 this.manager.startGame(chosenWord);
+                console.log('secret word is', chosenWord);
             });
     }
 
