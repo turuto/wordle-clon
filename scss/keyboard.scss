@@ -10,6 +10,20 @@
 
 		text-align: center;
 		text-transform: uppercase;
+
+		&--success {
+			color: $white;
+			background-color: $succes-color;
+		}
+
+		&--notInPlace {
+			color: $white;
+			background-color: $warning-color;
+		}
+
+		&--wrong {
+			background-color: darkgrey;
+		}
 	}
 }
 

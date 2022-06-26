@@ -78,4 +78,23 @@ export class Keyboard {
             this.el.classList.add('disabled');
         }
     }
+
+    colorKey(letter, state) {
+        // the change of the color hint in the keyboard is graduated
+        // this is, we only change it if the new color means an improvemment in the guess
+        const successGradation = ['wrong', 'notInPlace', 'success'];
+        const keyEl = this.el.querySelector(`[data-key=${letter}]`);
+
+        const prevClass = [...keyEl.classList]
+            .filter(item => item.includes('--'))
+            .join('');
+        const prevState = prevClass.substring(prevClass.indexOf('--') + 2);
+
+        const hasImproved = successGradation.indexOf(prevState) < successGradation.indexOf(state);
+
+        if (hasImproved) {
+            keyEl.classList.remove(`keyboard__key--${prevState}`);
+            keyEl.classList.add(`keyboard__key--${state}`);
+        }
+    }
 }

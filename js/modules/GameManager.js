@@ -71,8 +71,9 @@ export class GameManager {
         const remainingToGuess = hiddenArr.filter((letter, index) => !letterStatus[index]);
 
         letterStatus.forEach((item, index) => {
+            const searchedLetter = this.currentAttempt[index];
+
             if (typeof item === 'undefined') {
-                const searchedLetter = this.currentAttempt[index];
                 if (remainingToGuess.includes(searchedLetter)) {
                     letterStatus[index] = 'notInPlace';
                 } else {
@@ -80,6 +81,7 @@ export class GameManager {
                 }
             }
             this.board.colorLetter(index, letterStatus[index]);
+            this.keyboard.colorKey(searchedLetter, letterStatus[index]);
         })
     }
 
