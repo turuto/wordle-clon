@@ -19,12 +19,15 @@ export class Keyboard {
             const buildKeyboardRow = (row) => {
                 return row.map(letter => {
                     let label = letter;
+                    let className;
                     if (label.toUpperCase() === 'BACKSPACE') {
                         label = 'DELETE';
+                        className = 'keyboard__key--long';
                     } else if (label.toUpperCase() === 'ENTER') {
                         label = 'SEND';
+                        className = 'keyboard__key--long';
                     }
-                    return `<button class="keyboard__key" data-key="${letter}">${label}</button>`
+                    return `<button class="keyboard__key ${className}" data-key="${letter}">${label}</button>`
                 }).join('');;
             }
             return `<div class="keyboard__row">${buildKeyboardRow(row)}</div>`;

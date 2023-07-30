@@ -1,7 +1,7 @@
 .keyboard {
-	background: yellow;
-
 	&__row {
+		margin-top: .2em;
+
 		text-align: center;
 	}
 
@@ -10,6 +10,17 @@
 
 		text-align: center;
 		text-transform: uppercase;
+
+		border: 1px solid var(--main-text-color);
+		border-radius: 100%;
+		background: transparent;
+
+		font-size: 1.4rem;
+
+		margin-inline: 5px;
+		aspect-ratio: 1;
+
+
 
 		&--success {
 			color: $white;
