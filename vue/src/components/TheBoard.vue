@@ -1,7 +1,7 @@
 <template>
-   <main>
+    <main>
         <p>
-            The Bard
+            The Board
         </p>
         <Keyboard></Keyboard>
     </main>
@@ -14,10 +14,10 @@ import Keyboard from './keyboard/Keyboard.vue';
 
 <style scoped>
 main {
-    background: cyan;
-    flex-grow: 1;
     display: flex;
     flex-direction: column;
-}
+    flex-grow: 1;
 
+    background: cyan;
+}
 </style>
