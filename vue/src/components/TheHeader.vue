@@ -1,6 +1,6 @@
 <template>
     <header>
-        The header
+        <h1>VUE WORDLE</h1>
     </header>
 </template>
 
@@ -8,6 +8,4 @@
 
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
