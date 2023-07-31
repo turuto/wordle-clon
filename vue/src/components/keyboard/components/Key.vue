@@ -10,12 +10,11 @@ const props = defineProps({
 })
 const emit = defineEmits(['keyClicked']);
 
-
 const { letter } = toRefs(props);
 
-const handleClick = function () {
-    console.log('inside the key', props.letter);
+const handleClick = function (event) {
     emit('keyClicked', { letter: props.letter });
+    event.target.blur();
 };
 </script>
 
@@ -24,5 +23,9 @@ button {
     padding: 1em;
 
     background: none;
+}
+
+button:focus {
+    outline: 2px solid green;
 }
 </style>

@@ -7,19 +7,39 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted, onBeforeUnmount } from 'vue';
 import Key from './components/Key.vue';
 import { useGameStore } from '../../stores/gameStore';
+
+interface KeyClickedEvent {
+    letter: string;
+}
+
 const gameStore = useGameStore();
 
 const letters = [
     ['Q', 'W', 'E', 'R', 'T', 'Y', 'I', 'O', 'P'],
     ['A', 'S', 'D', 'F', 'G', 'H', 'K', 'L', 'Ñ'],
-    ['Z', 'X', 'C', 'V', 'B', 'N', 'M']
+    ['SUBMIT', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'DEL']
 ]
-const handleKeyClicked = (event) => {
+
+const handleKeyPressed = (event: KeyboardEvent) => {
+    console.log(event.key);
+    gameStore.selectKey(event.key);
+};
+const handleKeyClicked = (event: KeyClickedEvent) => {
     console.log('Key clicked:', event.letter);
     gameStore.selectKey(event.letter);
+
 };
+
+onMounted(() => {
+    window.addEventListener('keydown', handleKeyPressed);
+});
+
+onBeforeUnmount(() => {
+    window.removeEventListener('keydown', handleKeyPressed);
+});
 </script>
 
 <style lang="scss" scoped>
@@ -35,6 +55,8 @@ const handleKeyClicked = (event) => {
     &__row {
         display: flex;
         justify-content: center;
+
+        gap: .5rem;
     }
 }
 </style>
