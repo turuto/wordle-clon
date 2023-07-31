@@ -1,5 +1,5 @@
 <template>
-    <button @click="handleClick">{{ letter }}</button>
+    <button @click="handleClick">{{ btnLabel }}</button>
 </template>
 
 <script setup lang="ts">
@@ -12,6 +12,15 @@ const emit = defineEmits(['keyClicked']);
 
 const { letter } = toRefs(props);
 
+let btnLabel;
+if (letter.value === 'DEL') {
+    btnLabel = '🔙';
+} else if (letter.value === 'SUBMIT') {
+    btnLabel = '✔️';
+} else {
+    btnLabel = letter.value;
+}
+
 const handleClick = function (event) {
     emit('keyClicked', { letter: props.letter });
     event.target.blur();
@@ -20,9 +29,14 @@ const handleClick = function (event) {
 
 <style scoped>
 button {
-    padding: 1em;
+    padding: .5em;
 
-    background: none;
+    color: salmon;
+    border: 1px solid lightsalmon;
+    border-radius: .2em;
+
+    font-size: 1.1rem;
+    font-weight: bold;
 }
 
 button:focus {
