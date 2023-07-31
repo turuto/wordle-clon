@@ -12,7 +12,7 @@ const emit = defineEmits(['keyClicked']);
 
 const { letter } = toRefs(props);
 
-let btnLabel;
+let btnLabel: String;
 if (letter.value === 'DEL') {
     btnLabel = '🔙';
 } else if (letter.value === 'SUBMIT') {
@@ -21,9 +21,9 @@ if (letter.value === 'DEL') {
     btnLabel = letter.value;
 }
 
-const handleClick = function (event) {
+const handleClick = function (event: MouseEvent) {
     emit('keyClicked', { letter: props.letter });
-    event.target.blur();
+    (event.target as HTMLButtonElement).blur();
 };
 </script>
 
