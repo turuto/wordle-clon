@@ -40,8 +40,8 @@ onBeforeUnmount(() => {
 });
 
 const fetchWords = (numLetters: number) => {
-    const searchedLenght = (numLetters < 10) ? `0${numLetters}` : numLetters;
-    const endpoint = `/data/${searchedLenght}.txt`;
+    const searchedLength = (numLetters < 10) ? `0${numLetters}` : numLetters;
+    const endpoint = `/data/${searchedLength}.txt`;
     setTimeout(() => {
         fetch(endpoint)
             .then(response => response.text())
