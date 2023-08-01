@@ -4,6 +4,7 @@
 
 <script setup lang="ts">
 import { toRefs } from 'vue';
+import { SPECIAL_LABELS } from '../../../config/constants';
 
 const props = defineProps({
     letter: { type: String, required: true },
@@ -13,9 +14,9 @@ const emit = defineEmits(['keyClicked']);
 const { letter } = toRefs(props);
 
 let btnLabel: String;
-if (letter.value === 'DEL') {
+if (letter.value === SPECIAL_LABELS.DELETE) {
     btnLabel = '🔙';
-} else if (letter.value === 'SUBMIT') {
+} else if (letter.value === SPECIAL_LABELS.ENTER) {
     btnLabel = '✔️';
 } else {
     btnLabel = letter.value;

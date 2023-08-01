@@ -2,21 +2,26 @@
 
 <template>
     <the-header v-if="!isLandscape"></the-header>
-    <the-board v-if="!isLandscape"></the-board>
+    <the-spinner v-if="isLoading"></the-spinner>
+    <the-board v-if="!isLandscape && !isLoading"></the-board>
     <the-footer v-if="!isLandscape"></the-footer>
     <landscape-warning v-if="isLandscape"></landscape-warning>
 </template>
 
 <script setup lang="ts">
 import { onMounted, onBeforeUnmount, ref } from 'vue';
+import { GAME_CONFIG } from './config/constants';
+import { processList } from './utils/processList.ts'
 //import { useGameStore } from './stores/gameStore'
 
 import TheHeader from './components/TheHeader.vue';
 import TheBoard from './components/TheBoard.vue';
 import TheFooter from './components/TheFooter.vue';
 import LandscapeWarning from './components/LandscapeWarning.vue';
+import TheSpinner from './components/TheSpinner.vue';
 
 const isLandscape = ref(false);
+let isLoading = ref(true);
 
 const handleResize = () => {
     const isWider = window.innerHeight < window.innerWidth;
@@ -26,15 +31,35 @@ const handleResize = () => {
 
 onMounted(() => {
     window.addEventListener('resize', handleResize);
-    handleResize(); // Call the method initially to set the initial value of isLandscape
+    handleResize();
+    fetchWords(GAME_CONFIG.NUM_LETTERS);
 });
 
 onBeforeUnmount(() => {
     window.removeEventListener('resize', handleResize);
 });
 
+const fetchWords = (numLetters: number) => {
+    const searchedLenght = (numLetters < 10) ? `0${numLetters}` : numLetters;
+    const endpoint = `/data/${searchedLenght}.txt`;
+    setTimeout(() => {
+        fetch(endpoint)
+            .then(response => response.text())
+            .then(data => {
+                const processedList = processList(data);
+                console.log(processedList);
+                isLoading.value = false;
+                // const chosenWord = this.chooseWord();
+                // this.manager.dictionary = this.words;
+                // this.manager.startGame(chosenWord);
+                // console.log('secret word is', chosenWord);
+            });
+    }, 5000);
+
+};
 //const gameStore = useGameStore();
 
 </script>
 
 <style scoped></style>
+./utils/processList.ts
