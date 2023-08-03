@@ -7,7 +7,7 @@
 </script>
 
 <style scoped>
-footer{
+footer {
     background: palegreen;
 }
 </style>

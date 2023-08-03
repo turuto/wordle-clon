@@ -12,13 +12,15 @@
 import { onMounted, onBeforeUnmount, ref } from 'vue';
 import { GAME_CONFIG } from './config/constants';
 import { processList } from './utils/processList.ts'
-//import { useGameStore } from './stores/gameStore'
+import { useGameStore } from './stores/gameStore'
 
 import TheHeader from './components/TheHeader.vue';
 import TheBoard from './components/TheBoard.vue';
 import TheFooter from './components/TheFooter.vue';
 import LandscapeWarning from './components/LandscapeWarning.vue';
 import TheSpinner from './components/TheSpinner.vue';
+
+const gameStore = useGameStore();
 
 const isLandscape = ref(false);
 let isLoading = ref(true);
@@ -42,22 +44,23 @@ onBeforeUnmount(() => {
 const fetchWords = (numLetters: number) => {
     const searchedLength = (numLetters < 10) ? `0${numLetters}` : numLetters;
     const endpoint = `/data/${searchedLength}.txt`;
+    // this timeout is just to simulate some kind of latency and to see the Loading component
     setTimeout(() => {
         fetch(endpoint)
             .then(response => response.text())
             .then(data => {
                 const processedList = processList(data);
-                console.log(processedList);
+                gameStore.wordsList = [...processedList];
                 isLoading.value = false;
                 // const chosenWord = this.chooseWord();
                 // this.manager.dictionary = this.words;
                 // this.manager.startGame(chosenWord);
                 // console.log('secret word is', chosenWord);
-            });
-    }, 5000);
-
+            })
+            .then(gameStore.chooseWord());
+    }, 1000);
 };
-//const gameStore = useGameStore();
+
 
 </script>
 

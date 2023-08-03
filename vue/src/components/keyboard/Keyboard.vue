@@ -42,8 +42,7 @@ onBeforeUnmount(() => {
     display: flex;
     flex-direction: column;
 
-    outline: 1px solid red;
-
+    padding-block: 1rem;
     justify-self: flex-end;
     gap: .5rem;
 

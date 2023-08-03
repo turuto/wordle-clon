@@ -1,14 +1,13 @@
 <template>
     <main>
-        <p class="grid">
-            The Board
-        </p>
+        <the-grid />
         <Keyboard></Keyboard>
     </main>
 </template>
 
 <script setup lang="ts">
 import Keyboard from './keyboard/Keyboard.vue';
+import TheGrid from './TheGrid.vue';
 
 </script>
 
@@ -17,9 +16,5 @@ main {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-}
-
-.grid {
-    flex: 1;
 }
 </style>
