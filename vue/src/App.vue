@@ -41,7 +41,6 @@ onMounted(() => {
                 gameStore.chooseWord();
             };
         });
-
 });
 
 onBeforeUnmount(() => {
