@@ -38,7 +38,7 @@ onMounted(() => {
         .then(processedList => {
             if (processedList) {
                 gameStore.wordsList = [...processedList];
-                gameStore.chooseWord();
+                gameStore.chooseHiddenWord();
             };
         });
 });
