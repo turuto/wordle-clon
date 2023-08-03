@@ -34,35 +34,38 @@ const handleResize = () => {
 onMounted(() => {
     window.addEventListener('resize', handleResize);
     handleResize();
-    fetchWords(GAME_CONFIG.NUM_LETTERS);
+    fetchWords(GAME_CONFIG.NUM_LETTERS)
+        .then(processedList => {
+            if (processedList) {
+                gameStore.wordsList = [...processedList];
+                gameStore.chooseWord();
+            };
+        });
+
 });
 
 onBeforeUnmount(() => {
     window.removeEventListener('resize', handleResize);
 });
 
-const fetchWords = (numLetters: number) => {
+const fetchWords = async (numLetters: number) => {
     const searchedLength = (numLetters < 10) ? `0${numLetters}` : numLetters;
     const endpoint = `/data/${searchedLength}.txt`;
-    // this timeout is just to simulate some kind of latency and to see the Loading component
-    setTimeout(() => {
-        fetch(endpoint)
-            .then(response => response.text())
-            .then(data => {
-                const processedList = processList(data);
-                gameStore.wordsList = [...processedList];
-                isLoading.value = false;
-                // const chosenWord = this.chooseWord();
-                // this.manager.dictionary = this.words;
-                // this.manager.startGame(chosenWord);
-                // console.log('secret word is', chosenWord);
-            })
-            .then(gameStore.chooseWord());
-    }, 1000);
+
+    try {
+        const response = await fetch(endpoint);
+        const data = await response.text();
+        const processedList = processList(data);
+        isLoading.value = false;
+        return processedList;
+    } catch (error) {
+        console.error('Failed to fetch words:', error);
+    }
 };
+
+
 
 
 </script>
 
 <style scoped></style>
-./utils/processList.ts
