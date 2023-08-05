@@ -5,7 +5,9 @@
 </template>
 
 <script setup lang="ts">
-const letter:string='a';
+const props = defineProps({
+  letter: String
+})
 </script>
 
 <style scoped lang="scss">

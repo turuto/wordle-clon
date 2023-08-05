@@ -1,22 +1,28 @@
 <template>
     <div class="grid">
         <div v-for="n in GAME_CONFIG.NUM_ROUNDS"
-            :key="n"
-            class="grid__row"
-            :class="{ 'grid__row--active': n == activeRow }">
-            <cell v-for="i in GAME_CONFIG.NUM_LETTERS" :key="i" class="grid__cell">
+             :key="n"
+             class="grid__row"
+             :class="{ 'grid__row--active': n == activeRow }">
+            <cell v-for="i in GAME_CONFIG.NUM_LETTERS"
+			 	  :key="i"
+				  :letter="splittedAttempt[i-1]"
+				  class="grid__cell">
             </cell>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
+import {ref, computed} from 'vue'
 import { useGameStore } from '../../stores/gameStore';
 import { GAME_CONFIG } from '../../config/constants.ts'
 import Cell  from './components/Cell.vue';
 
+
 const gameStore = useGameStore();
-const activeRow = gameStore.currentRound + 1;
+const activeRow = gameStore.currentRound;
+const splittedAttempt = computed( () => gameStore.currentAttempt.split(''));
 
 </script>
 

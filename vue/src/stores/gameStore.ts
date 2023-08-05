@@ -4,7 +4,7 @@ export const useGameStore = defineStore('game', {
     state: () => ({
         wordsList: [] as string[],
         hiddenWord: '',
-        currentRound: 0,
+        currentRound: 1,
         keyboardEnabled: false,
         currentAttempt: '',
     }),
