@@ -20,11 +20,11 @@ const gameStore = useGameStore();
 
 const handleKeyPressed = (event: KeyboardEvent) => {
     console.log(event.key);
-    gameStore.selectKey(event.key);
+    gameStore.addLetter(event.key);
 };
 const handleKeyClicked = (event: KeyClickedEvent) => {
     console.log('Key clicked:', event.letter);
-    gameStore.selectKey(event.letter);
+    gameStore.addLetter(event.letter);
 
 };
 

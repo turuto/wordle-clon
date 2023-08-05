@@ -4,6 +4,7 @@ export const processList = function (rawList: string) {
     const normalizedWords = tempWords.map(word =>
         word.normalize('NFD').replace(/[\u0300-\u036f]/g, "")
     );
+    const upperCased = normalizedWords.map(word => word.toUpperCase());
 
-    return [... new Set(normalizedWords)]; // get unique values
+    return [... new Set(upperCased)]; // get unique values
 }

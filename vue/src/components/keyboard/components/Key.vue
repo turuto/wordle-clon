@@ -32,7 +32,8 @@ const handleClick = function (event: MouseEvent) {
 button {
     padding: .5em;
 
-    color: salmon;
+    color: transparent;
+    text-shadow:0 0 0 salmon;
     border: 1px solid lightsalmon;
     border-radius: .2em;
 
