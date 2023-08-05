@@ -8,6 +8,7 @@ export const useGameStore = defineStore('game', {
         currentRound: 0,
         keyboardEnabled: false,
         attempts: [[]] as string[][],
+        hits: [[]] as string[][],
     }),
     actions: {
         chooseHiddenWord() {
@@ -57,8 +58,14 @@ export const useGameStore = defineStore('game', {
             this.makeNewRound();
         },
         makeNewRound() {
+            const wordAttempted = this.attempts[this.currentRound].join('');
+            this.hits[this.currentRound] = this.checkWord(wordAttempted);
             this.currentRound++;
             this.attempts.push([]);
+        },
+        checkWord(word: string): string[] {
+            console.log('Checking word: ', word);
+            return ['a'];
         },
     },
 });
