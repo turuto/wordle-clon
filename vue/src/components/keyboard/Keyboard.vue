@@ -19,12 +19,12 @@ interface KeyClickedEvent {
 const gameStore = useGameStore();
 
 const handleKeyPressed = (event: KeyboardEvent) => {
-    console.log(event.key);
-    gameStore.addLetter(event.key);
+    console.log('KEY PRESSED?', event.key);
+    gameStore.proccessKeyAction(event.key);
 };
 const handleKeyClicked = (event: KeyClickedEvent) => {
     console.log('Key clicked:', event.letter);
-    gameStore.addLetter(event.letter);
+    gameStore.proccessKeyAction(event.letter);
 
 };
 

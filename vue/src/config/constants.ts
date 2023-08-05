@@ -3,8 +3,8 @@ export const GAME_CONFIG = {
     NUM_ROUNDS: 6,
 };
 export const SPECIAL_LABELS = {
-    ENTER: 'ENTER',
-    DELETE: 'BACKSPACE'
+    ENTER: 'Enter',
+    DELETE: 'Backspace'
 };
 export const KEYBOARD_CONFIG = [
     ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
