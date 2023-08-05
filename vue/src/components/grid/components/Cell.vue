@@ -5,30 +5,28 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
-  letter: String
-})
+defineProps({
+    letter: String,
+});
 </script>
 
 <style scoped lang="scss">
 .grid__cell {
-    outline:1px solid grey;
+    outline: 1px solid grey;
     font-size: 2rem;
     font-weight: bold;
-	aspect-ratio: 1/1;
-    display:flex;
-    justify-content:center;
-    align-items:center;
+    aspect-ratio: 1/1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-    &--right{
-        background:green;
-        color:white;
+    &--right {
+        background: green;
+        color: white;
     }
-    &--semiright{
-        background:yellow;
-        color:white;
+    &--semiright {
+        background: yellow;
+        color: white;
     }
 }
-
-
 </style>

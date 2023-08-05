@@ -5,9 +5,9 @@ export const useGameStore = defineStore('game', {
     state: () => ({
         wordsList: [] as string[],
         hiddenWord: '',
-        currentRound: 1,
+        currentRound: 0,
         keyboardEnabled: false,
-        currentAttempt: '',
+        attempts: [[]] as string[][],
     }),
     actions: {
         chooseHiddenWord() {
@@ -18,6 +18,7 @@ export const useGameStore = defineStore('game', {
             this.keyboardEnabled = true;
         },
         proccessKeyAction(keyStroke: String) {
+            console.log('processing keystroke');
             if (keyStroke === SPECIAL_LABELS.DELETE) {
                 this.removeLetter();
                 return;
@@ -28,23 +29,30 @@ export const useGameStore = defineStore('game', {
             this.addLetter(keyStroke);
         },
         removeLetter() {
-            if (this.currentAttempt.length > 0) {
-                this.currentAttempt = this.currentAttempt.slice(0, -1);
+            const currentAttempt = this.attempts[this.currentRound];
+            if (currentAttempt.length > 0) {
+                currentAttempt.pop();
             }
         },
         addLetter(letter: String) {
-            if (this.currentAttempt.length < GAME_CONFIG.NUM_LETTERS) {
+            const currentAttempt = this.attempts[this.currentRound];
+            if (currentAttempt.length < GAME_CONFIG.NUM_LETTERS) {
                 const upperCasedLetter = letter.toUpperCase();
-                this.currentAttempt += upperCasedLetter;
+                currentAttempt.push(upperCasedLetter);
             }
+            console.log('currentAttempt,', currentAttempt, this.attempts);
         },
         submitAttempt() {
-            if (this.currentAttempt.length < GAME_CONFIG.NUM_LETTERS) {
+            let currentAttempt = this.attempts[this.currentRound];
+            if (currentAttempt.length < GAME_CONFIG.NUM_LETTERS) {
                 console.log('WORD IS NOT COMPLETE');
                 return;
             }
-            this.currentAttempt = '';
+            this.makeNewRound();
+        },
+        makeNewRound() {
             this.currentRound++;
+            this.attempts.push([]);
         },
     },
 });
