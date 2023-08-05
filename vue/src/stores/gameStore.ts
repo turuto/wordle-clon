@@ -34,11 +34,18 @@ export const useGameStore = defineStore('game', {
                 currentAttempt.pop();
             }
         },
-        addLetter(letter: String) {
-            const currentAttempt = this.attempts[this.currentRound];
-            if (currentAttempt.length < GAME_CONFIG.NUM_LETTERS) {
-                const upperCasedLetter = letter.toUpperCase();
-                currentAttempt.push(upperCasedLetter);
+        addLetter(letter: string) {
+            //need to check it's a valid letter
+            const letterRegex = /^[a-zA-Z]$/;
+            if (letterRegex.test(letter)) {
+                const currentAttempt = this.attempts[this.currentRound];
+                if (currentAttempt.length < GAME_CONFIG.NUM_LETTERS) {
+                    const upperCasedLetter = letter.toUpperCase();
+                    currentAttempt.push(upperCasedLetter);
+                }
+            } else {
+                // Invalid keypress
+                console.log('Invalid keypress');
             }
         },
         submitAttempt() {
