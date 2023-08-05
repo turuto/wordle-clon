@@ -4,9 +4,10 @@
              :key="n"
              class="grid__row"
              :class="{ 'grid__row--active': n == activeRow }">
+			 {{ n }} {{ activeRow }}
             <cell v-for="i in GAME_CONFIG.NUM_LETTERS"
 			 	  :key="i"
-				  :letter="splittedAttempt[i-1]"
+				  :letter="getLetter(n,i)"
 				  class="grid__cell">
             </cell>
         </div>
@@ -14,16 +15,22 @@
 </template>
 
 <script setup lang="ts">
-import {ref, computed} from 'vue'
+import {computed} from 'vue'
 import { useGameStore } from '../../stores/gameStore';
 import { GAME_CONFIG } from '../../config/constants.ts'
 import Cell  from './components/Cell.vue';
-
 
 const gameStore = useGameStore();
 const activeRow = gameStore.currentRound;
 const splittedAttempt = computed( () => gameStore.currentAttempt.split(''));
 
+const getLetter = (row:number, index:number):string => {
+
+	if (row === activeRow) {
+		return splittedAttempt.value[index - 1];
+	}
+	return '';
+}
 </script>
 
 <style scoped>
