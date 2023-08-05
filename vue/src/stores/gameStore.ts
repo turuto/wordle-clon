@@ -39,11 +39,12 @@ export const useGameStore = defineStore('game', {
             }
         },
         submitAttempt() {
-            if (this.currentAttempt.length === GAME_CONFIG.NUM_LETTERS) {
-                console.log('SUBMITTINF');
-            } else {
+            if (this.currentAttempt.length < GAME_CONFIG.NUM_LETTERS) {
                 console.log('WORD IS NOT COMPLETE');
+                return;
             }
+            this.currentAttempt = '';
+            this.currentRound++;
         },
     },
 });
