@@ -9,13 +9,15 @@ export const useGameStore = defineStore('game', {
         currentAttempt: '',
     }),
     actions: {
-        selectKey(letter: String) {
-            console.log('from the store', letter);
+        addLetter(letter: String) {
+            const upperCasedLetter = letter.toUpperCase()
+            // solo añadir if hay hueco, si no, saltar al nuevo attempt
+            this.currentAttempt += upperCasedLetter;
         },
         chooseHiddenWord() {
             const randomIndex = Math.floor(Math.random() * this.wordsList.length);
             this.hiddenWord = this.wordsList[randomIndex];
             this.keyboardEnabled = true;
-        }
+        },
     },
 });
