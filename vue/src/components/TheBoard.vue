@@ -7,7 +7,7 @@
 
 <script setup lang="ts">
 import Keyboard from './keyboard/Keyboard.vue';
-import TheGrid from './TheGrid.vue';
+import TheGrid from './grid/TheGrid.vue';
 
 </script>
 
