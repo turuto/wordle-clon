@@ -35,7 +35,6 @@ const getLetter = (row: number, index: number): string => {
 };
 
 watch(rowsData, () => {
-    console.log('rowsdata', rowsData);
     rowsData.value;
 });
 </script>
