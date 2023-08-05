@@ -4,7 +4,6 @@
              :key="n"
              class="grid__row"
              :class="{ 'grid__row--active': n == activeRow }">
-			 {{ n }} {{ activeRow }}
             <cell v-for="i in GAME_CONFIG.NUM_LETTERS"
 			 	  :key="i"
 				  :letter="getLetter(n,i)"
@@ -21,12 +20,11 @@ import { GAME_CONFIG } from '../../config/constants.ts'
 import Cell  from './components/Cell.vue';
 
 const gameStore = useGameStore();
-const activeRow = gameStore.currentRound;
+const activeRow =computed( () => gameStore.currentRound);
 const splittedAttempt = computed( () => gameStore.currentAttempt.split(''));
 
 const getLetter = (row:number, index:number):string => {
-
-	if (row === activeRow) {
+	if (row === activeRow.value) {
 		return splittedAttempt.value[index - 1];
 	}
 	return '';
