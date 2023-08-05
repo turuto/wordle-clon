@@ -40,7 +40,6 @@ export const useGameStore = defineStore('game', {
                 const upperCasedLetter = letter.toUpperCase();
                 currentAttempt.push(upperCasedLetter);
             }
-            console.log('currentAttempt,', currentAttempt, this.attempts);
         },
         submitAttempt() {
             let currentAttempt = this.attempts[this.currentRound];
