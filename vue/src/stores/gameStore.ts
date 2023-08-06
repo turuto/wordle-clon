@@ -16,9 +16,10 @@ export const useGameStore = defineStore('game', {
                 Math.random() * this.wordsList.length
             );
             this.hiddenWord = this.wordsList[randomIndex];
+            this.hiddenWord = 'CRATE';
             this.keyboardEnabled = true;
         },
-        proccessKeyAction(keyStroke: String) {
+        proccessKeyAction(keyStroke: string) {
             console.log('processing keystroke');
             if (keyStroke === SPECIAL_LABELS.DELETE) {
                 this.removeLetter();
@@ -73,18 +74,31 @@ export const useGameStore = defineStore('game', {
         },
         checkWord(guess: string[]): string[] {
             const hiddenWordArray = this.hiddenWord.split('');
-            // first round:; find the ones in place or not in place
             const result = guess.map((letter, index) => {
                 if (hiddenWordArray[index] === letter) {
                     return 'success';
                 } else if (!hiddenWordArray.includes(letter)) {
                     return 'fail';
                 } else {
-                    return 'still to check';
+                    // the letter is not in the place but present
+                    // but we need to mark it as notInPlace only
+                    // if there are more (not counting the ones marked as success)
+                    const ocurrencesInHiddenWord = hiddenWordArray.filter(
+                        (item) => item === letter
+                    ).length;
+                    const ocurrencesInGuess = guess.filter(
+                        (item) => item === letter
+                    ).length;
+                    if (ocurrencesInGuess === ocurrencesInHiddenWord) {
+                        return 'notInPlace';
+                    } else {
+                        return 'fail';
+                    }
+                    console.log(ocurrencesInHiddenWord, ocurrencesInGuess);
                 }
             });
-            console.log(guess);
             console.log(hiddenWordArray);
+            console.log(guess);
             console.log(result);
             // second round: find those not in place
             return ['a'];
