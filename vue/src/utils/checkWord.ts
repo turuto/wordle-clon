@@ -2,7 +2,6 @@ export const checkWord = function (
     guess: string[],
     hiddenWord: string
 ): string[] {
-    console.log('NIOOOOA');
     const hiddenWordArray = hiddenWord.split('');
     const result = guess.map((letter, index) => {
         if (hiddenWordArray[index] === letter) {
@@ -24,11 +23,10 @@ export const checkWord = function (
             } else {
                 return 'fail';
             }
-            console.log(ocurrencesInHiddenWord, ocurrencesInGuess);
         }
     });
-    console.log('HIDDEN', hiddenWordArray);
-    console.log('GUESS: ', guess);
-    console.log(result);
+    // console.log('HIDDEN', hiddenWordArray);
+    // console.log('GUESS: ', guess);
+    // console.log(result);
     return result;
 };

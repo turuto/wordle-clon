@@ -1,6 +1,11 @@
 import { defineStore } from 'pinia';
-import { GAME_CONFIG, SPECIAL_LABELS } from '../config/constants.ts';
+import { GAME_CONFIG, SPECIAL_LABELS, MESSAGES } from '../config/constants.ts';
 import { checkWord } from '../utils/checkWord';
+
+type KeyUsed = {
+    letter: string;
+    state: string;
+};
 
 export const useGameStore = defineStore('game', {
     state: () => ({
@@ -10,6 +15,7 @@ export const useGameStore = defineStore('game', {
         keyboardEnabled: false,
         attempts: [[]] as string[][],
         hits: [[]] as string[][],
+        lettersUsed: [] as KeyUsed[],
     }),
     actions: {
         chooseHiddenWord() {
@@ -17,10 +23,11 @@ export const useGameStore = defineStore('game', {
                 Math.random() * this.wordsList.length
             );
             this.hiddenWord = this.wordsList[randomIndex];
+            console.log(this.hiddenWord);
             this.keyboardEnabled = true;
         },
         proccessKeyAction(keyStroke: string) {
-            console.log('processing keystroke');
+            // console.log('processing keystroke');
             if (keyStroke === SPECIAL_LABELS.DELETE) {
                 this.removeLetter();
                 return;
@@ -47,7 +54,7 @@ export const useGameStore = defineStore('game', {
                 }
             } else {
                 // Invalid keypress
-                console.log('Invalid keypress');
+                //  console.log('Invalid keypress');
             }
         },
         submitAttempt() {
@@ -60,7 +67,7 @@ export const useGameStore = defineStore('game', {
             const guess = currentAttempt.join('');
             if (!this.wordsList.includes(guess)) {
                 console.log('WORD DOES NOT EXIST');
-                //return;
+                return;
             }
             this.finishRound();
         },
@@ -68,13 +75,33 @@ export const useGameStore = defineStore('game', {
             const wordAttempted = this.attempts[this.currentRound];
             this.hits[this.currentRound] = this.checkWord(
                 wordAttempted,
-                'POTRE'
+                this.hiddenWord
             );
-            //if  we haven't guessed and there are rounds left,
-            // move this to a nakeNewRound() otherwise, gameOver()
+            const isGuessed = wordAttempted.join('') === this.hiddenWord;
+            const lastRound = GAME_CONFIG.NUM_ROUNDS - 1;
+            console.log(this.currentRound, ' out of ', lastRound);
+            if (isGuessed) {
+                this.gameOver(true);
+            } else if (this.currentRound === lastRound) {
+                console.log('SHOULD FINNISH');
+                this.gameOver(false);
+            } else {
+                this.makeNewRound();
+            }
+        },
+        checkWord,
+        makeNewRound() {
+            console.log(this.currentRound, 'MAKING NEW ROUND');
             this.currentRound++;
             this.attempts.push([]);
         },
-        checkWord,
+        gameOver(hasWon: boolean) {
+            console.log('GAME OVER:', hasWon, this.currentRound);
+            if (hasWon) {
+                console.log(MESSAGES[this.currentRound]);
+            } else {
+                console.log('ANOTHER TIME');
+            }
+        },
     },
 });
