@@ -15,13 +15,11 @@ export const useGameStore = defineStore('game', {
         keyboardEnabled: false,
         attempts: [[]] as string[][],
         hits: [[]] as string[][],
-        lettersUsed: [] as KeyUsed[],
+        lettersUsed: new Map(),
     }),
     actions: {
         chooseHiddenWord() {
-            const randomIndex = Math.floor(
-                Math.random() * this.wordsList.length
-            );
+            const randomIndex = Math.floor(Math.random() * this.wordsList.length);
             this.hiddenWord = this.wordsList[randomIndex];
             console.log(this.hiddenWord);
             this.keyboardEnabled = true;
@@ -73,17 +71,12 @@ export const useGameStore = defineStore('game', {
         },
         finishRound() {
             const wordAttempted = this.attempts[this.currentRound];
-            this.hits[this.currentRound] = this.checkWord(
-                wordAttempted,
-                this.hiddenWord
-            );
+            this.hits[this.currentRound] = this.checkWord(wordAttempted, this.hiddenWord);
 
             wordAttempted.forEach((letter, index) => {
-                const newLetter = {
-                    letter,
-                    state: this.hits[this.currentRound][index],
-                };
-                this.lettersUsed.push(newLetter);
+                console.log(letter);
+                // should only set the letter in the map if its new one or the status is higher
+                this.lettersUsed.set(letter, this.hits[this.currentRound][index]);
             });
             const isGuessed = wordAttempted.join('') === this.hiddenWord;
             const lastRound = GAME_CONFIG.NUM_ROUNDS - 1;

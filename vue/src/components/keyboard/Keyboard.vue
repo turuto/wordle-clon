@@ -5,6 +5,7 @@
             class="keyboard__row">
             <key
                 v-for="letter in row"
+                :key="letter"
                 :letter="letter"
                 @key-clicked="handleKeyClicked"></key>
         </div>
