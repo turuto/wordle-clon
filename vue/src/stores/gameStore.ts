@@ -50,21 +50,43 @@ export const useGameStore = defineStore('game', {
             }
         },
         submitAttempt() {
-            let currentAttempt = this.attempts[this.currentRound];
+            const currentAttempt = this.attempts[this.currentRound];
             if (currentAttempt.length < GAME_CONFIG.NUM_LETTERS) {
                 console.log('WORD IS NOT COMPLETE');
                 return;
             }
-            this.makeNewRound();
+            // can't submit if word is not in the list
+            const guess = currentAttempt.join('');
+            if (!this.wordsList.includes(guess)) {
+                console.log('WORD DOES NOT EXIST');
+                //return;
+            }
+            this.finishRound();
         },
-        makeNewRound() {
-            const wordAttempted = this.attempts[this.currentRound].join('');
+        finishRound() {
+            const wordAttempted = this.attempts[this.currentRound];
             this.hits[this.currentRound] = this.checkWord(wordAttempted);
+            //if  we haven't guessed and there are rounds left,
+            // move this to a nakeNewRound() otherwise, gameOver()
             this.currentRound++;
             this.attempts.push([]);
         },
-        checkWord(word: string): string[] {
-            console.log('Checking word: ', word);
+        checkWord(guess: string[]): string[] {
+            const hiddenWordArray = this.hiddenWord.split('');
+            // first round:; find the ones in place or not in place
+            const result = guess.map((letter, index) => {
+                if (hiddenWordArray[index] === letter) {
+                    return 'success';
+                } else if (!hiddenWordArray.includes(letter)) {
+                    return 'fail';
+                } else {
+                    return 'still to check';
+                }
+            });
+            console.log(guess);
+            console.log(hiddenWordArray);
+            console.log(result);
+            // second round: find those not in place
             return ['a'];
         },
     },
