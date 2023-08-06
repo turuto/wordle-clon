@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import { GAME_CONFIG, SPECIAL_LABELS } from '../config/constants.ts';
+import { checkWord } from '../utils/checkWord';
 
 export const useGameStore = defineStore('game', {
     state: () => ({
@@ -16,7 +17,6 @@ export const useGameStore = defineStore('game', {
                 Math.random() * this.wordsList.length
             );
             this.hiddenWord = this.wordsList[randomIndex];
-            this.hiddenWord = 'CRATE';
             this.keyboardEnabled = true;
         },
         proccessKeyAction(keyStroke: string) {
@@ -66,42 +66,15 @@ export const useGameStore = defineStore('game', {
         },
         finishRound() {
             const wordAttempted = this.attempts[this.currentRound];
-            this.hits[this.currentRound] = this.checkWord(wordAttempted);
+            this.hits[this.currentRound] = this.checkWord(
+                wordAttempted,
+                'POTRE'
+            );
             //if  we haven't guessed and there are rounds left,
             // move this to a nakeNewRound() otherwise, gameOver()
             this.currentRound++;
             this.attempts.push([]);
         },
-        checkWord(guess: string[]): string[] {
-            const hiddenWordArray = this.hiddenWord.split('');
-            const result = guess.map((letter, index) => {
-                if (hiddenWordArray[index] === letter) {
-                    return 'success';
-                } else if (!hiddenWordArray.includes(letter)) {
-                    return 'fail';
-                } else {
-                    // the letter is not in the place but present
-                    // but we need to mark it as notInPlace only
-                    // if there are more (not counting the ones marked as success)
-                    const ocurrencesInHiddenWord = hiddenWordArray.filter(
-                        (item) => item === letter
-                    ).length;
-                    const ocurrencesInGuess = guess.filter(
-                        (item) => item === letter
-                    ).length;
-                    if (ocurrencesInGuess === ocurrencesInHiddenWord) {
-                        return 'notInPlace';
-                    } else {
-                        return 'fail';
-                    }
-                    console.log(ocurrencesInHiddenWord, ocurrencesInGuess);
-                }
-            });
-            console.log(hiddenWordArray);
-            console.log(guess);
-            console.log(result);
-            // second round: find those not in place
-            return result;
-        },
+        checkWord,
     },
 });
