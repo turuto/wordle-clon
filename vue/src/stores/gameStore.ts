@@ -77,6 +77,14 @@ export const useGameStore = defineStore('game', {
                 wordAttempted,
                 this.hiddenWord
             );
+
+            wordAttempted.forEach((letter, index) => {
+                const newLetter = {
+                    letter,
+                    state: this.hits[this.currentRound][index],
+                };
+                this.lettersUsed.push(newLetter);
+            });
             const isGuessed = wordAttempted.join('') === this.hiddenWord;
             const lastRound = GAME_CONFIG.NUM_ROUNDS - 1;
             console.log(this.currentRound, ' out of ', lastRound);
