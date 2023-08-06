@@ -101,7 +101,7 @@ export const useGameStore = defineStore('game', {
             console.log(guess);
             console.log(result);
             // second round: find those not in place
-            return ['a'];
+            return result;
         },
     },
 });
