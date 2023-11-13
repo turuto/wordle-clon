@@ -12,21 +12,24 @@ defineProps({
 
 <style scoped lang="scss">
 .grid__cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     outline: 1px solid grey;
+
     font-size: 2rem;
     font-weight: bold;
-    aspect-ratio: 1/1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 
-    &--right {
-        background: green;
+    aspect-ratio: 1/1;
+
+    &--success {
         color: white;
+        background: var(--col-success);
     }
-    &--semiright {
-        background: yellow;
+    &--not-in-place {
         color: white;
+        background: var(--col-warning);
     }
 }
 </style>

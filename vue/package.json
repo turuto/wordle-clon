@@ -1,41 +1,42 @@
 {
-  "name": "wordle-vue",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vue-tsc && vite build",
-    "preview": "vite preview",
-    "test": "jest"
-  },
-  "dependencies": {
-    "pinia": "^2.1.6",
-    "vue": "^3.3.4"
-  },
-  "devDependencies": {
-    "@types/jest": "^29.5.3",
-    "@vitejs/plugin-vue": "^4.2.3",
-    "@vue/test-utils": "^2.4.0-alpha.2",
-    "jest": "^29.6.2",
-    "scss": "^0.2.4",
-    "ts-jest": "^29.1.1",
-    "typescript": "^5.0.2",
-    "vite": "^4.4.5",
-    "vue-tsc": "^1.8.5",
-    "vue3-jest": "^27.0.0-alpha.2"
-  },
-  "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "ts",
-      "json",
-      "vue"
-    ],
-    "transform": {
-      ".*\\.(vue)$": "vue3-jest",
-      "^.+\\.tsx?$": "ts-jest"
+    "name": "wordle-vue",
+    "private": "true",
+    "version": "0.0.0",
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "vue-tsc && vite build",
+        "preview": "vite preview",
+        "test": "jest"
     },
-    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$"
-  }
+    "dependencies": {
+        "pinia": "^2.1.6",
+        "vue": "^3.3.4"
+    },
+    "devDependencies": {
+        "@types/jest": "^29.5.3",
+        "@vitejs/plugin-vue": "^4.2.3",
+        "@vue/test-utils": "^2.4.0-alpha.2",
+        "@vue/vue3-jest": "^29.2.6",
+        "jest": "^29.6.2",
+        "sass": "^1.69.5",
+        "scss": "^0.2.4",
+        "ts-jest": "^29.1.1",
+        "typescript": "^5.0.2",
+        "vite": "^4.4.5",
+        "vue-tsc": "^1.8.5"
+    },
+    "jest": {
+        "moduleFileExtensions": [
+            "js",
+            "ts",
+            "json",
+            "vue"
+        ],
+        "transform": {
+            ".*\\.(vue)$": "vue3-jest",
+            "^.+\\.tsx?$": "ts-jest"
+        },
+        "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$"
+    }
 }

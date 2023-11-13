@@ -4,13 +4,16 @@
             v-for="n in GAME_CONFIG.NUM_ROUNDS"
             :key="n"
             class="grid__row"
-            :class="{ 'grid__row--active': n == activeRow }">
-            {{ n }}
+            :class="{ 'grid__row--active': n == activeRow }"
+        >
+            {{ n }}{{}}
             <cell
                 v-for="i in GAME_CONFIG.NUM_LETTERS"
                 :key="i"
                 :letter="getLetter(n, i)"
-                class="grid__cell">
+                class="grid__cell"
+                :class="[getCellClassName(n, i)]"
+            >
             </cell>
         </div>
     </div>
@@ -32,6 +35,23 @@ const getLetter = (row: number, index: number): string => {
         return rowData[index - 1];
     }
     return '';
+};
+const getCellClassName = (row: number, index: number): string => {
+    const rowData = rowsData.value[row - 1];
+    if (!rowData || rowData.length < index) {
+        return '';
+    }
+
+    const letter = getLetter(row, index);
+    //changes camelCase to hyphenated
+    const className = gameStore.usedLettersState.get(letter);
+    const processedClassName =
+        className === undefined
+            ? ' '
+            : className
+                  .replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '\$1-\$2')
+                  .toLowerCase();
+    return 'grid__cell--' + processedClassName;
 };
 
 watch(rowsData, () => {
