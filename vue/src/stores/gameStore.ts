@@ -84,7 +84,7 @@ export const useGameStore = defineStore('game', {
         },
         finishRound() {
             const wordAttempted: string[] = this.attempts[this.currentRound];
-            console.log(wordAttempted, 'wordattempted');
+            // console.log(wordAttempted, 'wordattempted');
             this.hits[this.currentRound] = this.checkWord(
                 wordAttempted,
                 this.hiddenWord
