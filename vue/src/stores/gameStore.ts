@@ -31,6 +31,7 @@ export const useGameStore = defineStore('game', {
                 Math.random() * this.wordsList.length
             );
             this.hiddenWord = this.wordsList[randomIndex];
+
             console.log(this.hiddenWord);
 
             this.currentGame = true;
@@ -89,6 +90,7 @@ export const useGameStore = defineStore('game', {
                 wordAttempted,
                 this.hiddenWord
             );
+            console.log(this.hits);
 
             wordAttempted.forEach((letter: string, index: number) => {
                 const statusLevels = Object.values(STATUSES);
