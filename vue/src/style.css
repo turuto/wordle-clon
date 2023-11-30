@@ -58,4 +58,5 @@ body {
 :root {
     --col-success: limegreen;
     --col-warning: rgb(255, 183, 0);
+    --col-fail: rgb(67, 67, 67);
 }

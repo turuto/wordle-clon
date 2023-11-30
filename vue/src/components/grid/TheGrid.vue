@@ -4,16 +4,13 @@
             v-for="n in GAME_CONFIG.NUM_ROUNDS"
             :key="n"
             class="grid__row"
-            :class="{ 'grid__row--active': n == activeRow }"
-        >
-            {{ n }}
+            :class="{ 'grid__row--active': n == activeRow }">
             <cell
                 v-for="i in GAME_CONFIG.NUM_LETTERS"
                 :key="i"
                 :letter="getLetter(n, i)"
                 class="grid__cell"
-                :class="[getCellClassName(n, i)]"
-            >
+                :class="[getCellClassName(n, i)]">
             </cell>
         </div>
     </div>
