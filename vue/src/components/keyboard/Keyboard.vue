@@ -1,8 +1,6 @@
 <template>
     <div class="keyboard">
-        <div
-            v-for="row in KEYBOARD_CONFIG"
-            class="keyboard__row">
+        <div v-for="row in KEYBOARD_CONFIG" class="keyboard__row">
             <key
                 v-for="letter in row"
                 :key="letter"
@@ -47,6 +45,9 @@ onBeforeUnmount(() => {
     display: flex;
     flex-direction: column;
 
+    width: min(80ch, 80%);
+
+    margin-inline: auto;
     padding-block: 1rem;
     justify-self: flex-end;
     gap: 0.5rem;
