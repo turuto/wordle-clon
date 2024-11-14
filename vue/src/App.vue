@@ -1,5 +1,3 @@
-
-
 <template>
     <the-header v-if="!isLandscape"></the-header>
     <the-spinner v-if="isLoading"></the-spinner>
@@ -11,8 +9,8 @@
 <script setup lang="ts">
 import { onMounted, onBeforeUnmount, ref } from 'vue';
 import { GAME_CONFIG } from './config/constants';
-import { processList } from './utils/processList.ts'
-import { useGameStore } from './stores/gameStore'
+import { processList } from './utils/processList.ts';
+import { useGameStore } from './stores/gameStore';
 
 import TheHeader from './components/TheHeader.vue';
 import TheBoard from './components/TheBoard.vue';
@@ -34,13 +32,13 @@ const handleResize = () => {
 onMounted(() => {
     window.addEventListener('resize', handleResize);
     handleResize();
-    fetchWords(GAME_CONFIG.NUM_LETTERS)
-        .then(processedList => {
-            if (processedList) {
-                gameStore.wordsList = [...processedList];
-                gameStore.chooseHiddenWord();
-            };
-        });
+    fetchWords(GAME_CONFIG.NUM_LETTERS).then((processedList) => {
+        if (processedList) {
+            gameStore.wordsList = [...processedList];
+            gameStore.chooseHiddenWord();
+            gameStore.enableUI();
+        }
+    });
 });
 
 onBeforeUnmount(() => {
@@ -48,7 +46,7 @@ onBeforeUnmount(() => {
 });
 
 const fetchWords = async (numLetters: number) => {
-    const searchedLength = (numLetters < 10) ? `0${numLetters}` : numLetters;
+    const searchedLength = numLetters < 10 ? `0${numLetters}` : numLetters;
     const endpoint = `/data/${searchedLength}.txt`;
 
     try {
@@ -61,10 +59,6 @@ const fetchWords = async (numLetters: number) => {
         console.error('Failed to fetch words:', error);
     }
 };
-
-
-
-
 </script>
 
 <style scoped></style>
